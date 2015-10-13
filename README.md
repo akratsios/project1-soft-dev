@@ -16,4 +16,12 @@ A website where users can login and make blog posts, and comment on other users'
   2. Basic functionality of backend: ability to store data with SQL and access that data in python
   <br>
   </p>
+
+<b>Pages we want:</b>
+  * Home - view all blog posts
+  * Login - login
+  * Logout - can redirect to home
+  * Blog - make blog post to home page
+  * Comments - diff page for each post
+
   
