@@ -9,16 +9,19 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route("/login")
+@app.route("/login",methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        return redirect(url_for("home"))
 
 @app.route("/logout")
 def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/create")
+@app.route("/create",methods=['GET', 'POST'])
 def create():
     if request.method == "GET":
         #if not logged in, return login page; to be done when finished
