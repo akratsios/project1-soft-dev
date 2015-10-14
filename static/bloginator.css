@@ -4,13 +4,8 @@ body
     text-align:center;
 }
 
-.in
-{
-    width:500px;
-}
-
 div
-    {
+{
     width: 60%;
     margin-left: auto;
     margin-right: auto;
@@ -51,7 +46,23 @@ li.bar, li > a
     display:inline;
 }
 
-li:hover.bar {
+li:hover.bar
+{
     background-color:#A41842;
 }
 
+input[type="text"]
+{
+    width:500px;
+}
+
+textarea
+{
+    width:500px;
+    height:400px;
+}
+
+input[type="text"].log, input[type="password"].log
+{
+    width: 200px;
+}
