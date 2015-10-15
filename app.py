@@ -12,12 +12,20 @@ def home():
 @app.route("/login",methods=['GET', 'POST'])
 def login():
     if request.method == "GET":
+        #post the form
         return render_template("login.html")
     else:
+        user = request.form["user"]
+        pwd = request.form["pass"]
+        #do something with this using SQL
+        #if the above is came out ok then
+        #add it to the session
         return redirect(url_for("home"))
 
 @app.route("/logout")
 def logout():
+    #resets the session to none
+    session['user'] = None;
     return redirect(url_for("login"))
 
 
@@ -31,6 +39,7 @@ def create():
 
 @app.route("/blog")
 def blog():
+    #supposed to read the sql tables and display blogs with 10 per page
     return render_template("blog.html")
 
 
