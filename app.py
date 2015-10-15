@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import  random
+import login
 
 app = Flask(__name__)
 
@@ -7,16 +8,23 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    if 'user' not in session:
+        session['user'] = 0
+    user = session['user']
+    return render_template("home.html", user = user)
 
 @app.route("/login",methods=['GET', 'POST'])
 def login():
     if request.method == "GET":
+        if (session['user'] != 0):
+            return redirect(url_for("home"))
         #post the form
-        return render_template("login.html")
+        user = session['user']
+        return render_template("login.html", user = user)
     else:
         user = request.form["user"]
         pwd = request.form["pass"]
+        session['user'] = user;
         #do something with this using SQL
         #if the above is came out ok then
         #add it to the session
@@ -25,7 +33,8 @@ def login():
 @app.route("/logout")
 def logout():
     #resets the session to none
-    session['user'] = None;
+    session['user'] = 0
+    print (session['user'])
     return redirect(url_for("login"))
 
 
@@ -35,15 +44,13 @@ def create():
         #if not logged in, return login page; to be done when finished
         return render_template("create.html")
     if request.method == "POST":
-        return render_template("blog.html")
+        return render_template("blog.html", user = user)
 
 @app.route("/blog")
 def blog():
     #supposed to read the sql tables and display blogs with 10 per page
-    return render_template("blog.html")
-
-
-
+    user = session['user']
+    return render_template("blog.html", user = user)
 
 
 if __name__ == "__main__":
