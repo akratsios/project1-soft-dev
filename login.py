@@ -2,18 +2,23 @@ import sqlite3
 
 conn = sqlite3.connect("names.db")
 c = conn.cursor()
-
+#q = "create table users (username text, password text)"
+#c.execute(q)
+#conn.commit()
 def fetch(item):
+    a = ""
     if item == "user":
-        q = "SELECT names.user FROM names"
+        a = "SELECT users.username FROM users"
     elif item == "passwd":
-        q = "SELECT names.passwd FROM names"
-    result = c.execute(q)
+        a = "SELECT users.password FROM users"
+    result = c.execute(a)
+    for r in result:
+        print r
     return result
 
 def checkuser(username,password):
-    if username in fetch("user"):
-        if password == fetch("passwd")[user]:
+    if username in fetch("username"):
+        if password == fetch("password")[user]:
             return true
         else:
             return false
@@ -21,11 +26,14 @@ def checkuser(username,password):
         adduser(username,password)
 
 def adduser(uname,passwd):
-    TEMPLATE="INSERT INTO names VALUES('%(username)s',%(password)s)"
-    q = TEMPLATE%uname
-    r = TEMPLATE%passwd
+    TEMPLATE="INSERT INTO users VALUES('%(username)s',%(password)s)"
+    q = TEMPLATE%{'username' : uname, 'password' : passwd}
+    print q
     c.execute(q)
-    c.execute(r)
+    conn.commit()
 
 conn.commit()
+
+adduser("a","123")
+checkuser("a","123")
     
