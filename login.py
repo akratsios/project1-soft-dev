@@ -3,8 +3,11 @@ import sqlite3
 #checks if username + password matches one in database
 #if not, add username + password to database
 def checkuser(username,password):
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("database.db")
     c = conn.cursor()
+    #just in case it's the first user ever
+    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
+
     a = """
     SELECT users.username,users.password 
     FROM users
@@ -26,7 +29,7 @@ def checkuser(username,password):
         return True
 
 def adduser(uname,passwd):
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("database.db")
     c = conn.cursor()
     TEMPLATE="INSERT INTO users VALUES('%(username)s','%(password)s')"
     q = TEMPLATE%{'username' : uname, 'password' : passwd}
