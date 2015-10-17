@@ -2,14 +2,14 @@
 
 {% block content %}
 <div>
-  <h2> Login Please: </h2>
+  <h2> Login or Sign Up: </h2>
+  {{extra}}
   <form action="/login" method = "POST">
     <table>
       <tr><td>Username:</td><td> <input type="text" name="user" placeholder="JohnDoe123" class="log"></td></tr>
       <tr><td>Password:</td><td> <input type="password" name="pass" placeholder="Password123" class="log"></td></tr>
+      <tr><td><input type="submit" name="action" value="Login"></td><td><input type="submit" name= "action" value="Create"></td></tr>
     </table>
-    <input type="submit">
-    
   </form>
 </div>
 {% endblock %}

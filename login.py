@@ -1,13 +1,14 @@
 import sqlite3
+import md5
 
 #checks if username + password matches one in database
 #if not, add username + password to database
-def checkuser(username,password):
-    conn = sqlite3.connect("database.db")
+def checkuser(username,password):    
+    m= md5.new()
+    m.update(password)
+    password = m.hexdigest()
+    conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    #just in case it's the first user ever
-    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
-
     a = """
     SELECT users.username,users.password 
     FROM users
@@ -18,28 +19,25 @@ def checkuser(username,password):
         if r[0] == username:
             if r[1] == password:
                 #print "correct password"
-                return True
+                conn.close()
+                return "in"
             else:
                 #print "incorrect password"
-                return False
+                conn.close()
+                return "Wrong Password"
     else:
         conn.close()
-        adduser(username,password)
-        #print "added"
-        return True
+        return "No Such User"    
 
-def adduser(uname,passwd):
-    conn = sqlite3.connect("database.db")
+def adduser(uname,passwd):    
+    m= md5.new()
+    m.update(passwd)
+    passwd = m.hexdigest()
+    conn = sqlite3.connect("users.db")
     c = conn.cursor()
     TEMPLATE="INSERT INTO users VALUES('%(username)s','%(password)s')"
     q = TEMPLATE%{'username' : uname, 'password' : passwd}
-    print q
     c.execute(q)
     conn.commit()
     conn.close()
 
-#adduser("a","123")
-#checkuser("b","1234") #expecting "added"
-#checkuser("a","123") #expecting "correct password"
-#checkuser("b","123") #expecting "incorrect password"
-    

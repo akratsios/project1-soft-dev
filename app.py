@@ -12,18 +12,6 @@ def home():
         session['user'] = 0
     user = session['user']
     return render_template("home.html", user = user)
-
-@app.route("/user_create",methods=['GET','POST'])
-def user_create():
-    if request.method == "GET":
-        if (session['user'] != 0):
-            return redirect(url_for("home"))
-        user = session['user']
-        return render_template("user_create.html", user = user)
-    else:
-        user = request.form["user"]
-        pwd = request.form["pass"]
-        session['user'] = user
         
 @app.route("/login",methods=['GET', 'POST'])
 def log_in():
@@ -32,18 +20,26 @@ def log_in():
             return redirect(url_for("home"))
         #post the form
         user = session['user']
-        return render_template("login.html", user = user)
+        return render_template("login.html", user = user, extra = "")
     else:
         user = request.form["user"]
         pwd = request.form["pass"]
-        session['user'] = user
-        #do something with this using SQL
-        #if the above, came out ok then
-        #add it to the session
-        if login.checkuser(user,pwd):
-            return redirect(url_for("home"))
+        submit = request.form["action"]
+        if (user == "" or pwd == ""):
+            return render_template("login.html", user = user, extra = "Try again")
+        if (submit == "Login"):
+            result = login.checkuser(user,pwd)
+            print result
+            if (result == "in"):
+                session['user'] = user
+                return redirect(url_for("home"))
+            else:
+                session['user'] = 0
+                user = session['user']
+                return render_template("login.html", user = user, extra = result)
         else:
-            session['user'] = 0
+            login.adduser(user,pwd)
+            session['user'] = user
             return redirect(url_for("home"))
 
 @app.route("/logout")
@@ -73,3 +69,4 @@ if __name__ == "__main__":
     app.debug = True
     app.secret_key = "shh"
     app.run(host = '0.0.0.0', port = 8000)
+
