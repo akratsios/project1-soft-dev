@@ -32,18 +32,24 @@ def log_in():
             return redirect(url_for("home"))
         #post the form
         user = session['user']
-        return render_template("login.html", user = user)
+        return render_template("login.html", user = user, extra = "")
     else:
         user = request.form["user"]
         pwd = request.form["pass"]
-        session['user'] = user
-        #do something with this using SQL
-        #if the above, came out ok then
-        #add it to the session
-        if login.checkuser(user,pwd):
-            return redirect(url_for("home"))
+        submit = request.form["action"]
+        if (submit == "Login"):
+            result = login.checkuser(user,pwd)
+            print result
+            if (result == "in"):
+                session['user'] = user
+                return redirect(url_for("home"))
+            else:
+                session['user'] = 0
+                user = session['user']
+                return render_template("login.html", user = user, extra = result)
         else:
-            session['user'] = 0
+            login.adduser(user,pwd)
+            session['user'] = user
             return redirect(url_for("home"))
 
 @app.route("/logout")

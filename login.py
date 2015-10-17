@@ -1,8 +1,12 @@
 import sqlite3
+import md5
 
 #checks if username + password matches one in database
 #if not, add username + password to database
 def checkuser(username,password):
+    m= md5.new()
+    m.update(password)
+    password = m.hexdigest()
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
     a = """
@@ -15,25 +19,28 @@ def checkuser(username,password):
         if r[0] == username:
             if r[1] == password:
                 #print "correct password"
-                return True
+                conn.close()
+                return "in"
             else:
                 #print "incorrect password"
-                return False
+                conn.close()
+                return "<h3> Wrong Password </h3>"
     else:
         conn.close()
-        adduser(username,password)
-        #print "added"
-        return True
+        return "<h3> No Such User <h3>"    
 
 def adduser(uname,passwd):
+    m= md5.new()
+    m.update(passwd)
+    passwd = m.hexdigest()
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
     TEMPLATE="INSERT INTO users VALUES('%(username)s','%(password)s')"
     q = TEMPLATE%{'username' : uname, 'password' : passwd}
-    print q
     c.execute(q)
     conn.commit()
     conn.close()
+    
 
 #adduser("a","123")
 #checkuser("b","1234") #expecting "added"
