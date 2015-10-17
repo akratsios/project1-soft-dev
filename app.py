@@ -13,6 +13,18 @@ def home():
     user = session['user']
     return render_template("home.html", user = user)
 
+@app.route("/user_create",methods=['GET','POST'])
+def user_create():
+    if request.method == "GET":
+        if (session['user'] != 0):
+            return redirect(url_for("home"))
+        user = session['user']
+        return render_template("user_create.html", user = user)
+    else:
+        user = request.form["user"]
+        pwd = request.form["pass"]
+        session['user'] = user
+        
 @app.route("/login",methods=['GET', 'POST'])
 def log_in():
     if request.method == "GET":
@@ -26,7 +38,7 @@ def log_in():
         pwd = request.form["pass"]
         session['user'] = user
         #do something with this using SQL
-        #if the above is came out ok then
+        #if the above, came out ok then
         #add it to the session
         if login.checkuser(user,pwd):
             return redirect(url_for("home"))
