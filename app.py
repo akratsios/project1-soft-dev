@@ -14,7 +14,7 @@ def home():
     return render_template("home.html", user = user)
 
 @app.route("/login",methods=['GET', 'POST'])
-def login():
+def log_in():
     if request.method == "GET":
         if (session['user'] != 0):
             return redirect(url_for("home"))
@@ -24,18 +24,21 @@ def login():
     else:
         user = request.form["user"]
         pwd = request.form["pass"]
-        session['user'] = user;
+        session['user'] = user
         #do something with this using SQL
         #if the above is came out ok then
         #add it to the session
-        return redirect(url_for("home"))
+        if login.checkuser(user,pwd):
+            return redirect(url_for("create"))
+        else:
+            return redirect(url_for("home"))
 
 @app.route("/logout")
 def logout():
     #resets the session to none
     session['user'] = 0
     print (session['user'])
-    return redirect(url_for("login"))
+    return redirect(url_for("log_in"))
 
 
 @app.route("/create",methods=['GET', 'POST'])
