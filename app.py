@@ -29,8 +29,9 @@ def log_in():
         #if the above is came out ok then
         #add it to the session
         if login.checkuser(user,pwd):
-            return redirect(url_for("create"))
+            return redirect(url_for("home"))
         else:
+            session['user'] = 0
             return redirect(url_for("home"))
 
 @app.route("/logout")
