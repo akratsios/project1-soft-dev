@@ -6,7 +6,7 @@ A website where users can login and make blog posts, and comment on other users'
   Leader - Kevin Yan <br>
   UX - Sammi Wu Leung <br>
   Backend - Mary McGreal <br>
-  Middleware - Tiffany (XiuZhen) Lei <br>
+  Middleware - Tiffany (Xiuzhen) Lei <br>
   </p>
   
   <b>Deadline set #1: 10/14/15</b>
