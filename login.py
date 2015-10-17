@@ -7,8 +7,10 @@ def checkuser(username,password):
     m= md5.new()
     m.update(password)
     password = m.hexdigest()
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("database.db")
     c = conn.cursor()
+    #just in case it's the first user ever
+    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)"
     a = """
     SELECT users.username,users.password 
     FROM users
@@ -33,7 +35,7 @@ def adduser(uname,passwd):
     m= md5.new()
     m.update(passwd)
     passwd = m.hexdigest()
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("database.db")
     c = conn.cursor()
     TEMPLATE="INSERT INTO users VALUES('%(username)s','%(password)s')"
     q = TEMPLATE%{'username' : uname, 'password' : passwd}
