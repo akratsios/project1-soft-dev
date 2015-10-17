@@ -24,10 +24,10 @@ def checkuser(username,password):
             else:
                 #print "incorrect password"
                 conn.close()
-                return "<h3> Wrong Password </h3>"
+                return "Wrong Password"
     else:
         conn.close()
-        return "<h3> No Such User <h3>"    
+        return "No Such User"    
 
 def adduser(uname,passwd):
     m= md5.new()
@@ -40,10 +40,4 @@ def adduser(uname,passwd):
     c.execute(q)
     conn.commit()
     conn.close()
-    
 
-#adduser("a","123")
-#checkuser("b","1234") #expecting "added"
-#checkuser("a","123") #expecting "correct password"
-#checkuser("b","123") #expecting "incorrect password"
-    

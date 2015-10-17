@@ -25,6 +25,8 @@ def log_in():
         user = request.form["user"]
         pwd = request.form["pass"]
         submit = request.form["action"]
+        if (user == "" or pwd == ""):
+            return render_template("login.html", user = user, extra = "Try again")
         if (submit == "Login"):
             result = login.checkuser(user,pwd)
             print result
