@@ -3,14 +3,20 @@ import md5
 
 #checks if username + password matches one in database
 #if not, add username + password to database
-def checkuser(username,password):    
+def create():
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()  
+    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
+    conn.commit()
+    conn.close()
+
+def checkuser(username,password):
+    create()
     m= md5.new()
     m.update(password)
     password = m.hexdigest()
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    #just in case it's the first user ever
-    c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)"
     a = """
     SELECT users.username,users.password 
     FROM users
@@ -31,7 +37,8 @@ def checkuser(username,password):
         conn.close()
         return "No Such User"    
 
-def adduser(uname,passwd):    
+def adduser(uname,passwd):
+    create()
     m= md5.new()
     m.update(passwd)
     passwd = m.hexdigest()
