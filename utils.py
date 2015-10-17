@@ -5,12 +5,15 @@ c = connection.cursor()
 
 def addpost(t, ID, un, post):
     #inserts new post into the blogs table
-    TEMPLATE = "INSERT INTO blogs VALUES ('%(title)s', %(BID)d, '%(username)', '%(post)');"
-    q=TEMPLATE%({"title":t,"BID":ID,"username":un,"post":post})
-    print q 
+    TEMPLATE = "INSERT INTO blogs VALUES (\"%(title)s\", %(BID)s, \"%(username)s\", \"%(post)s\");"
+    q=TEMPLATE%({"title":t, "BID":ID, "username":un, "post":post})
+    print q
 
-#def query():
+    #currently c.execute(q) is giving us an error
+    c.execute(q)
 
-addpost("kek", 69, "kirito", "hey everyone it's a me MArio")
+c.execute("CREATE TABLE IF NOT EXISTS blogs (title TEXT, BID INTEGER, username TEXT, post TEXT)")
+addpost("kek", 69, "RarestPepe", "hey everyone it's a me Mario")
+c.execute("SELECT * FROM blogs")
 
 
