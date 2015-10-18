@@ -48,12 +48,20 @@ def getblogs(start, end):
         currow = currow + 1
     return bloglist
 
+def getoneblog (BID):
+	#displays the blog who's blog ID matches BID
+	connection = sqlite3.connect("database.db")
+    c = connection.cursor()
+
+    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post, comments.username, comments.comment FROM blogs, comments WHERE BID = %(blogid)s AND CID = %(blogid)s"
+    q = TEMPLATE%({"blogid":BID})
+    result=c.execute(q)
+    
+
+
 c.execute("DELETE FROM blogs")
 connection.commit()
 connection.close()
 addblog("kek", 1, "RarestPepe", "hey everyone it's a me Mario")
 addblog("whoa", 2, "Kevin", "anyone else realize it's due tomorrow???")
 print getblogs(0,5)
-
-
-
