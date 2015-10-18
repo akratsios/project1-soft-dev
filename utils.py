@@ -41,16 +41,19 @@ def getblogs(start, end):
     TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
     q = TEMPLATE%({"st":start, "end":end})
     result = c.execute(q)
+    bloglist = []
+    currow = 0
     for row in result:
-        print row[0]
-        print row[1]
-        print row[2]
+        bloglist.append(row)
+        currow = currow + 1
+    return bloglist
 
 c.execute("DELETE FROM blogs")
 connection.commit()
 connection.close()
 addblog("kek", 1, "RarestPepe", "hey everyone it's a me Mario")
-getblogs(0,5)
+addblog("whoa", 2, "Kevin", "anyone else realize it's due tomorrow???")
+print getblogs(0,5)
 
 
 
