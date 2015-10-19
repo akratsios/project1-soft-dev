@@ -66,12 +66,26 @@ def blog():
         #supposed to read the sql tables and display blogs with 10 per page
         user = session['user']
         blogs = utils.getblogs(1,10);
-        return render_template("blog.html", user = user, blogs = blogs)
+        page = False
+        blogID = 10
+        if (blogID + 1 < utils.getcount("blogs")):
+            nextP = False
+        return render_template("blog.html", user = user, blogs = blogs, nextP = nextP, prevP = False, blogID = blogID)
     if request.method == "POST":
+        blogs = []
+        prevP = True
+        nextP = True
         user = session['user']
-        blogs = utils.getblogs(10,20);
-        page = True;
-        return render_template("blog.html", user = user, blogs = blogs, page = page)
+        if (request.form["prev"] != None):
+            blogs = utils.getblogs(blogID - 19, blogID - 10)
+            if (blogID - 19 < 10):
+                prevP = False
+        elif (request.form["next"] != None):
+            blogs = utils.getblogs(blogID + 1, blogID + 10)
+            if (blogID + 1 < utils.getcount("blogs")):
+                nextP = False
+        return render_template("blog.html", user = user, blogs = blogs, nextP = nextP, prevP = prevP, blogID = blogID)
+
 
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
