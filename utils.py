@@ -38,13 +38,14 @@ def getblogs(start, end):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
     
-    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
-    q = TEMPLATE%({"st":start, "end":end})
-    result = c.execute(q)
-    bloglist = []
-    for row in result:
-        bloglist.append(row)
-    return bloglist
+    if (BID <= getcount()):
+        TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
+        q = TEMPLATE%({"st":start, "end":end})
+        result = c.execute(q)
+        bloglist = []
+        for row in result:
+            bloglist.append(row)
+        return bloglist
 
 def getoneblog (BID):
     #displays the blog whose blog ID matches BID
@@ -52,19 +53,26 @@ def getoneblog (BID):
     c = connection.cursor()
 
     TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID = %(blogid)s"
-    TEMPLATE2 = "SELECT comments.username, comments.comment FROM comments WHERE CID = %(thisblogid)s"
     q = TEMPLATE%({"blogid":BID})
-    q2 = TEMPLATE2%({"thisblogid":BID})
     result=c.execute(q)
-    result2=c.execute(q2)
     
     bloginfo = []
-    commentinfo = []
     for data in result:
         bloginfo.append(data)
-    for data in result2:
-        commentinfo.append(data)
     return bloginfo
+
+def getblogcomments (BID):
+    #displays the comments whose CID matches BID
+    connection = sqlite3.connect("database.db")
+    c = connection.cursor()
+
+    TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE CID = %(blogid)s"
+    q = TEMPLATE%({"blogid":BID})
+    result=c.execute(q)
+    
+    commentinfo = []
+    for data in result:
+        commentinfo.append(data)
     return commentinfo
 
 def getcount():
