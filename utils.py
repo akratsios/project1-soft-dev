@@ -67,7 +67,12 @@ def getoneblog (BID):
     return bloginfo
     return commentinfo
 
-    
+def getcount():
+    connection = sqlite3.connect("database.db")
+    c = connection.cursor()
+    result = c.execute("SELECT COUNT(*) FROM blogs")
+    for data in result:
+        return data
 
 c.execute("DELETE FROM blogs")
 connection.commit()
@@ -75,3 +80,4 @@ connection.close()
 addblog("kek", 1, "RarestPepe", "hey everyone it's a me Mario")
 addblog("whoa", 2, "Kevin", "anyone else realize it's due tomorrow???")
 print getblogs(0,5)
+print getcount()[0]
