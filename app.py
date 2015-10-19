@@ -76,6 +76,7 @@ def blog():
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
     user = session['user']
+    #temp for testing
     comments = utils.getblogcomments(2);
     return render_template("comment.html", user = user, comments = comments)
 
