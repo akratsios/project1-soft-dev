@@ -65,7 +65,9 @@ def blog():
     if request.method == "GET":
         #supposed to read the sql tables and display blogs with 10 per page
         user = session['user']
-        blogs = utils.getblogs(1,10);
+        blogs = utils.getblogs(1,10)
+        prevP = False
+        nextP = False
         page = False
         blogID = 10
         if (blogID + 1 < utils.getcount("blogs")):
