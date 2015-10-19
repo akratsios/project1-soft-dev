@@ -9,19 +9,18 @@ A website where users can login and make blog posts, and comment on other users'
   Middleware - Tiffany (Xiuzhen) Lei <br>
   </p>
   
-  <b>Deadline set #1: 10/14/15</b>
-  <p>
-  1. Basic functionality of website: ability to visit pages, login and logout using hardcoded ID and pw
-  <br>
-  2. Basic functionality of backend: ability to store data with SQL and access that data in python
-  <br>
-  </p>
+<b>Pages:</b>
+  * Home - Brief description of the webstie
+  * Blog - View all the past blogs!
+  * Log in/Sign up - Login or register a new account
+  * Create - Make new blog posts!
 
-<b>Pages we want:</b>
-  * Home - view all blog posts
-  * Login - login
-  * Logout - can redirect to home
-  * Blog - make blog post to home page
-  * Comments - diff page for each post
+------------------------------------------------- <b>OLD INFORMATION</b> ------------------------------------------------------
+  
+<b>Deadline set #1: 10/14/15</b>
+  1. Basic functionality of website: ability to visit pages, login and logout using hardcoded ID and pw
+  2. Basic functionality of backend: ability to store data with SQL and access that data in python
+
+  
 
   
