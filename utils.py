@@ -1,7 +1,5 @@
 import sqlite3
 
-connection = sqlite3.connect("database.db")
-c = connection.cursor()
 
 def addblog(t, un, post):    
     #inserts new blog into the blogs table
@@ -55,7 +53,7 @@ def getoneblog (BID):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
 
-    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID = %(blogid)s"
+    TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
     q = TEMPLATE%({"blogid":BID})
     result=c.execute(q)
     
@@ -86,15 +84,3 @@ def getcount(source):
     result = c.execute(q)
     for data in result:
         return data[0]
-
-#all of this is for testing purposes - hardcoded blogs and comments
-c.execute("DELETE FROM blogs")
-c.execute("DELETE FROM comments")
-connection.commit()
-connection.close()
-addblog("kek", "RarestPepe", "hey everyone it's a me Mario")
-addblog("whoa", "Kevin", "anyone else realize it's due tomorrow???")
-addcomment(2, "Sammi", "what's happening gaise")
-addcomment(2, "Mary", "same")
-addcomment(2, "Tiffy", "why is my fb name not Tiffany")
-print getblogs(0,5)

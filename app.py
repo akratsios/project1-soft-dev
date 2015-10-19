@@ -62,7 +62,7 @@ def create():
         title = request.form['bname']
         post = request.form['btext']
         utils.addblog(title, user, post)
-        return render_template("blog.html", user = user)
+        return redirect(url_for("blog"))
 
 @app.route("/blog",methods=['GET', 'POST'])
 def blog():
@@ -82,11 +82,11 @@ def blog():
         prevP = True
         nextP = True
         user = session['user']
-        if (request.form["prev"] != None):
+        if "prev" in request.form:
             blogs = utils.getblogs(blogID - 19, blogID - 10)
             if (blogID - 19 < 10):
                 prevP = False
-        elif (request.form["next"] != None):
+        elif "next" in request.form:
             blogs = utils.getblogs(blogID + 1, blogID + 10)
             if (blogID + 1 < utils.getcount("blogs")):
                 nextP = False
@@ -99,11 +99,13 @@ def comment():
     if request.method == "GET":
         return redirect(url_for("home"))
     elif request.method == "POST":
-
-        print request.form["BID"]
         BID = int(request.form["BID"])
+        if ("text" in request.form):
+            comment = request.form["text"]
+            utils.addcomment(BID,user,comment)
+        blog = utils.getoneblog(BID)
         comments = utils.getblogcomments(BID)
-        return render_template("comment.html", user = user, comments = comments, BID = BID)
+        return render_template("comment.html", user = user, blog = blog, comments = comments, BID = BID)
 
 if __name__ == "__main__":
     app.debug = True
