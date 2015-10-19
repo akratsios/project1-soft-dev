@@ -58,6 +58,10 @@ def create():
             return redirect(url_for("home"))
         return render_template("create.html")
     if request.method == "POST":
+        user = session['user']
+        title = request.form['bname']
+        post = request.form['btext']
+        utils.addblog(title, user, post)
         return render_template("blog.html", user = user)
 
 @app.route("/blog",methods=['GET', 'POST'])
