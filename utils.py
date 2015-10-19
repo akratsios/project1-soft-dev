@@ -42,10 +42,8 @@ def getblogs(start, end):
     q = TEMPLATE%({"st":start, "end":end})
     result = c.execute(q)
     bloglist = []
-    currow = 0
     for row in result:
         bloglist.append(row)
-        currow = currow + 1
     return bloglist
 
 def getoneblog (BID):
