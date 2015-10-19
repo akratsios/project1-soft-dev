@@ -49,14 +49,14 @@ def getblogs(start, end):
     return bloglist
 
 def getoneblog (BID):
-	#displays the blog who's blog ID matches BID
-	connection = sqlite3.connect("database.db")
+    #displays the blog whose blog ID matches BID
+    connection = sqlite3.connect("database.db")
     c = connection.cursor()
 
     TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post, comments.username, comments.comment FROM blogs, comments WHERE BID = %(blogid)s AND CID = %(blogid)s"
     q = TEMPLATE%({"blogid":BID})
     result=c.execute(q)
-
+    
     for entry in result:
         print entry
         print entry[0]
