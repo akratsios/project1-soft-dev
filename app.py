@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import  random
 import login
+import utils
 
 app = Flask(__name__)
 
@@ -53,17 +54,28 @@ def logout():
 @app.route("/create",methods=['GET', 'POST'])
 def create():
     if request.method == "GET":
-        #if not logged in, return login page; to be done when finished
+        if (session['user'] == 0):
+            return redirect(url_for("home"))
         return render_template("create.html")
     if request.method == "POST":
         return render_template("blog.html", user = user)
 
-@app.route("/blog")
+@app.route("/blog",methods=['GET', 'POST'])
 def blog():
-    #supposed to read the sql tables and display blogs with 10 per page
-    user = session['user']
-    return render_template("blog.html", user = user)
+    if request.method == "GET":
+        #supposed to read the sql tables and display blogs with 10 per page
+        user = session['user']
+        blogs = utils.getblogs(1,10);
+        return render_template("blog.html", user = user, blogs = blogs)
+    if request.method == "POST":
+        user = session['user']
+        blogs = utils.getblogs(10,20);
+        page = True;
+        return render_template("blog.html", user = user, blogs = blogs, page = page)
 
+@app.route("/comment",methods=['GET', 'POST'])
+def comment():
+    return 0
 
 if __name__ == "__main__":
     app.debug = True

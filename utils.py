@@ -3,11 +3,13 @@ import sqlite3
 connection = sqlite3.connect("database.db")
 c = connection.cursor()
 
-def addblog(t, ID, un, post):    
+def addblog(t, un, post):    
     #inserts new blog into the blogs table
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
 
+    ID = getcount("blogs") + 1
+    
     #just in case it's the first blog ever
     c.execute("CREATE TABLE IF NOT EXISTS blogs (title TEXT, BID INTEGER, username TEXT, post TEXT)")
 
@@ -18,11 +20,13 @@ def addblog(t, ID, un, post):
     connection.commit()
     connection.close()
 
-def addcomment(CID, BID, un, cmt):
+def addcomment(BID, un, cmt):
     #inserts new comment into the comments table
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
-
+    
+    CID = getcount("comments") + 1
+    
     #just in case it's the first comment ever
     c.execute("CREATE TABLE IF NOT EXISTS comments (CID INTEGER, BID INTEGER, username TEXT, comment TEXT)")
     
@@ -38,14 +42,13 @@ def getblogs(start, end):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
     
-    if (BID <= getcount()):
-        TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
-        q = TEMPLATE%({"st":start, "end":end})
-        result = c.execute(q)
-        bloglist = []
-        for row in result:
-            bloglist.append(row)
-        return bloglist
+    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
+    q = TEMPLATE%({"st":start, "end":end})
+    result = c.execute(q)
+    bloglist = []
+    for row in result:
+        bloglist.append(row)
+    return bloglist
 
 def getoneblog (BID):
     #displays the blog whose blog ID matches BID
@@ -75,17 +78,18 @@ def getblogcomments (BID):
         commentinfo.append(data)
     return commentinfo
 
-def getcount():
+def getcount(source):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
-    result = c.execute("SELECT COUNT(*) FROM blogs")
+    TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
+    q = TEMPLATE%({"source" : source})
+    result = c.execute(q)
     for data in result:
-        return data
+        return data[0]
 
 c.execute("DELETE FROM blogs")
 connection.commit()
 connection.close()
-addblog("kek", 1, "RarestPepe", "hey everyone it's a me Mario")
-addblog("whoa", 2, "Kevin", "anyone else realize it's due tomorrow???")
+addblog("kek", "RarestPepe", "hey everyone it's a me Mario")
+addblog("whoa", "Kevin", "anyone else realize it's due tomorrow???")
 print getblogs(0,5)
-print getcount()[0]
