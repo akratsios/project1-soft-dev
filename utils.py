@@ -42,7 +42,7 @@ def getblogs(start, end):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
     
-    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
+    TEMPLATE = "SELECT * FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
     q = TEMPLATE%({"st":start, "end":end})
     result = c.execute(q)
     bloglist = []
