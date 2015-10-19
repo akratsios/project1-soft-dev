@@ -53,15 +53,23 @@ def getoneblog (BID):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
 
-    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post, comments.username, comments.comment FROM blogs, comments WHERE BID = %(blogid)s AND CID = %(blogid)s"
+    TEMPLATE = "SELECT blogs.title, blogs.username, blogs.post FROM blogs WHERE BID = %(blogid)s"
+    TEMPLATE2 = "SELECT comments.username, comments.comment FROM comments WHERE CID = %(thisblogid)s"
     q = TEMPLATE%({"blogid":BID})
+    q2 = TEMPLATE2%({"thisblogid":BID})
     result=c.execute(q)
+    result2=c.execute(q2)
     
-    for entry in result:
-        print entry
-        print entry[0]
-    
+    bloginfo = []
+    commentinfo = []
+    for data in result:
+        bloginfo.append(data)
+    for data in result2:
+        commentinfo.append(data)
+    return bloginfo
+    return commentinfo
 
+    
 
 c.execute("DELETE FROM blogs")
 connection.commit()
