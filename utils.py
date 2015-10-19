@@ -87,6 +87,7 @@ def getcount(source):
     for data in result:
         return data[0]
 
+#all of this is for testing purposes - hardcoded blogs and comments
 c.execute("DELETE FROM blogs")
 c.execute("DELETE FROM comments")
 connection.commit()
