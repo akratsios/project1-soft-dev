@@ -62,6 +62,11 @@ textarea
     height:400px;
 }
 
+textarea.comment
+{
+    height: 200px;
+}
+
 input[type="text"].log, input[type="password"].log
 {
     width: 200px;

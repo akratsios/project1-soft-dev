@@ -9,7 +9,14 @@
 </div>
 {% endfor %}
 
-<br>
-<button> <a href="/blog">Back to Blog</a> </button>
+<div>
+  <form action="/comment" method = "POST" id="comment">
+    <textarea class="comment" name="text" placeholder="AWESOME COMMENT" form="comment"></textarea>
+    <br>
+    <button type="submit" value={{BID}} name="BID"> Add Comment </button>
+    <br>
+    <button> <a href="/blog">Back to Blog</a> </button>
+  </form>
+</div>
 
 {% endblock %}

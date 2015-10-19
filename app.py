@@ -91,13 +91,15 @@ def blog():
 
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
-    if request.method == "POST":
-        print request.form["BID"]
-        return 0
     user = session['user']
-    #temp for testing
-    comments = utils.getblogcomments(2);
-    return render_template("comment.html", user = user, comments = comments)
+    if request.method == "GET":
+        return redirect(url_for("home"))
+    elif request.method == "POST":
+
+        print request.form["BID"]
+        BID = int(request.form["BID"])
+        comments = utils.getblogcomments(BID)
+        return render_template("comment.html", user = user, comments = comments, BID = BID)
 
 if __name__ == "__main__":
     app.debug = True
