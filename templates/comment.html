@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for user, comment in comments %}
+<div>
+  <b> {{user}} </b>
+  <p> {{comment}} </p>
+</div>
+{% endfor %}
+
+<br>
+<button> <a href="/blog">Back to Blog</a> </button>
+
+{% endblock %}

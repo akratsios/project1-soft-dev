@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import  random
+import random
 import login
 import utils
 
@@ -75,7 +75,9 @@ def blog():
 
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
-    return 0
+    user = session['user']
+    comments = utils.getblogcomments(2);
+    return render_template("comment.html", user = user, comments = comments)
 
 if __name__ == "__main__":
     app.debug = True

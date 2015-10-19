@@ -69,7 +69,7 @@ def getblogcomments (BID):
     connection = sqlite3.connect("database.db")
     c = connection.cursor()
 
-    TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE CID = %(blogid)s"
+    TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
     q = TEMPLATE%({"blogid":BID})
     result=c.execute(q)
     
@@ -88,8 +88,12 @@ def getcount(source):
         return data[0]
 
 c.execute("DELETE FROM blogs")
+c.execute("DELETE FROM comments")
 connection.commit()
 connection.close()
 addblog("kek", "RarestPepe", "hey everyone it's a me Mario")
 addblog("whoa", "Kevin", "anyone else realize it's due tomorrow???")
+addcomment(2, "Sammi", "what's happening gaise")
+addcomment(2, "Mary", "same")
+addcomment(2, "Tiffy", "why is my fb name not Tiffany")
 print getblogs(0,5)
