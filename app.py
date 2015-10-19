@@ -91,6 +91,9 @@ def blog():
 
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
+    if request.method == "POST":
+        print request.form["BID"]
+        return 0
     user = session['user']
     #temp for testing
     comments = utils.getblogcomments(2);

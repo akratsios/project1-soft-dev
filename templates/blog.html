@@ -3,12 +3,12 @@
 
 {% block content %}
 
-{% for title, BID, user, content in blogs %}
+{% for title, ID, user, content in blogs %}
 <div>
   <h2> {{title}} by {{user}} </h2>
   <p> {{content}} </p>
-  <form action="/comment">
-    <button type="submit" value=BID>View / Add Comments </button>
+  <form action="/comment" method="POST">
+    <button type="submit" value={{ID}} name="BaID">View / Add Comments </button>
   </form>
 </div>
 {% endfor %}
