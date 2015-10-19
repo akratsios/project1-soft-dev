@@ -15,10 +15,10 @@
 
 <form action="/blog" method = "POST">
   {% if prevP %}
-  <button type="submit" name="prev" value=blogID >Previous</button>
+  <button type="submit" name="prev" value={{blogID}} >Previous</button>
   {% endif %}
   {% if nextP %}
-  <button type="submit" name="next" value=blogID >Next</button>
+  <button type="submit" name="next" value={{blogID}} >Next</button>
   {% endif %}
 </form>
 

@@ -74,8 +74,9 @@ def blog():
         nextP = False
         page = False
         blogID = 10
-        if (blogID + 1 < utils.getcount("blogs")):
-            nextP = False
+        print utils.getcount("blogs")
+        if (blogID + 1 <= utils.getcount("blogs")):
+            nextP = True
         return render_template("blog.html", user = user, blogs = blogs, nextP = nextP, prevP = False, blogID = blogID)
     if request.method == "POST":
         blogs = []
@@ -83,11 +84,14 @@ def blog():
         nextP = True
         user = session['user']
         if "prev" in request.form:
-            blogs = utils.getblogs(blogID - 19, blogID - 10)
+            blogID = int(request.form["prev"])
+            blogs = utils.getblogs(blogID - 10, utils.getcount("blogs"))
             if (blogID - 19 < 10):
                 prevP = False
         elif "next" in request.form:
+            blogID = int(request.form["next"])
             blogs = utils.getblogs(blogID + 1, blogID + 10)
+            print utils.getcount("blogs")
             if (blogID + 1 < utils.getcount("blogs")):
                 nextP = False
         return render_template("blog.html", user = user, blogs = blogs, nextP = nextP, prevP = prevP, blogID = blogID)
