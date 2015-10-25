@@ -3,30 +3,43 @@ from pymongo import MongoClient
 
 def addblog(t, un, post):    
     #inserts new blog into the blogs table
-    connection = MongoClient("database.db")
+    connection = MongoClient()
     c = connection["blogs"]
 
     ID = getcount("blogs") + 1
+
+
+    from datetime import datetime
+    result = db.restaurants.insert_one(
+        {
+            "title": t,
+            #"BID": ID,
+            "username": un,
+            "post": post
+            #(still gotta figure out date stuff) "date": datetime.strptime("2014-01-16", "%Y-%m-%d"),
+        }
+    )
     
-    #just in case it's the first blog ever
-    c.execute("CREATE TABLE IF NOT EXISTS blogs (title TEXT, BID INTEGER, username TEXT, post TEXT)")
-
-    TEMPLATE = "INSERT INTO blogs VALUES (\"%(title)s\", %(BID)s, \"%(username)s\", \"%(post)s\");"
-    q = TEMPLATE%({"title":t, "BID":ID, "username":un, "post":post})
-    c.execute(q)
-
-    connection.commit()
-    connection.close()
 
 def addcomment(BID, un, cmt):
     #inserts new comment into the comments table
-    connection = MongoClient("database.db")
-    c = connection["blogs"]
+    connection = MongoClient()
+    c = connection["comments"]
     
     CID = getcount("comments") + 1
-    
-    #just in case it's the first comment ever
-    c.execute("CREATE TABLE IF NOT EXISTS comments (CID INTEGER, BID INTEGER, username TEXT, comment TEXT)")
+
+    from datetime import datetime
+    result = db.restaurants.insert_one(
+        {
+            "title": t,
+            #"BID": ID,
+            "username": un,
+            "post": post
+            #(still gotta figure out date stuff) "date": datetime.strptime("2014-01-16", "%Y-%m-%d"),
+        }
+    )
+
+
     
     TEMPLATE = "INSERT INTO comments VALUES(%(CID)s, %(BID)s, \"%(username)s\", \"%(comment)s\");" 
     q = TEMPLATE%({"CID":CID, "BID":BID, "username":un, "comment":cmt})
@@ -37,7 +50,7 @@ def addcomment(BID, un, cmt):
 
 def getblogs(start, end):
     #returns list of blogs with IDs from start to end
-    connection = MongoClient("database.db")
+    connection = MongoClient()
     c = connection["blogs"]
     
     TEMPLATE = "SELECT * FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
@@ -50,7 +63,7 @@ def getblogs(start, end):
 
 def getoneblog (BID):
     #displays the blog whose blog ID matches BID
-    connection = MongoClient("database.db")
+    connection = MongoClient()
     c = connection["blogs"]
 
     TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
@@ -64,7 +77,7 @@ def getoneblog (BID):
 
 def getblogcomments (BID):
     #displays the comments whose CID matches BID
-    connection = MongoClient("database.db")
+    connection = MongoClient()
     c = connection["blogs"]
 
     TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
@@ -77,9 +90,9 @@ def getblogcomments (BID):
     return commentinfo
 
 def getcount(source):
-    connection = MongoClient("database.db")
+    connection = MongoClient()
     c = connection["blogs"]
-    
+
     TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
     q = TEMPLATE%({"source" : source})
     result = c.execute(q)
