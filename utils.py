@@ -3,8 +3,8 @@ from pymongo import MongoClient
 
 def addblog(t, un, post):    
     #inserts new blog into the blogs table
-    connection = sqlite3.connect("database.db")
-    c = connection.cursor()
+    connection = MongoClient("database.db")
+    c = connection["blogs"]
 
     ID = getcount("blogs") + 1
     
@@ -20,8 +20,8 @@ def addblog(t, un, post):
 
 def addcomment(BID, un, cmt):
     #inserts new comment into the comments table
-    connection = sqlite3.connect("database.db")
-    c = connection.cursor()
+    connection = MongoClient("database.db")
+    c = connection["blogs"]
     
     CID = getcount("comments") + 1
     
@@ -37,8 +37,8 @@ def addcomment(BID, un, cmt):
 
 def getblogs(start, end):
     #returns list of blogs with IDs from start to end
-    connection = sqlite3.connect("database.db")
-    c = connection.cursor()
+    connection = MongoClient("database.db")
+    c = connection["blogs"]
     
     TEMPLATE = "SELECT * FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
     q = TEMPLATE%({"st":start, "end":end})
@@ -50,8 +50,8 @@ def getblogs(start, end):
 
 def getoneblog (BID):
     #displays the blog whose blog ID matches BID
-    connection = sqlite3.connect("database.db")
-    c = connection.cursor()
+    connection = MongoClient("database.db")
+    c = connection["blogs"]
 
     TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
     q = TEMPLATE%({"blogid":BID})
@@ -64,8 +64,8 @@ def getoneblog (BID):
 
 def getblogcomments (BID):
     #displays the comments whose CID matches BID
-    connection = sqlite3.connect("database.db")
-    c = connection.cursor()
+    connection = MongoClient("database.db")
+    c = connection["blogs"]
 
     TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
     q = TEMPLATE%({"blogid":BID})
@@ -77,8 +77,9 @@ def getblogcomments (BID):
     return commentinfo
 
 def getcount(source):
-    connection = sqlite3.connect("database.db")
-    c = connection.cursor()
+    connection = MongoClient("database.db")
+    c = connection["blogs"]
+    
     TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
     q = TEMPLATE%({"source" : source})
     result = c.execute(q)
