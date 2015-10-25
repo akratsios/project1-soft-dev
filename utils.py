@@ -1,5 +1,5 @@
-import sqlite3
-
+import random
+from pymongo import MongoClient
 
 def addblog(t, un, post):    
     #inserts new blog into the blogs table
