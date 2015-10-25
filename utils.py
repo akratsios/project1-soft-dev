@@ -13,7 +13,7 @@ def addblog(t, un, post):
     db.blogs.insert_one(
         {
             "title": t,
-            #"BID": ID,
+            "BID": ID,
             "username": un,
             "post": post
             #(still gotta figure out date stuff) "date": datetime.strptime("2014-01-16", "%Y-%m-%d"),
@@ -45,9 +45,9 @@ def getblogs(start, end):
     connection = MongoClient()
     c = connection["blogs"]
     
-    TEMPLATE = "SELECT * FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
-    q = TEMPLATE%({"st":start, "end":end})
-    result = c.execute(q)
+    #TEMPLATE = "SELECT * FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
+    #q = TEMPLATE%({"st":start, "end":end})
+    result = c.blogs.find( { "BID": { $gt: start}, "BID": { $lt :end}})
     bloglist = []
     for row in result:
         bloglist.append(row)
@@ -58,9 +58,9 @@ def getoneblog (BID):
     connection = MongoClient()
     c = connection["blogs"]
 
-    TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
-    q = TEMPLATE%({"blogid":BID})
-    result=c.execute(q)
+    #TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
+    #q = TEMPLATE%({"blogid":BID})
+    result=c.blogs.find("BID" : BID)
     
     bloginfo = []
     for data in result:
@@ -70,11 +70,11 @@ def getoneblog (BID):
 def getblogcomments (BID):
     #displays the comments whose CID matches BID
     connection = MongoClient()
-    c = connection["blogs"]
+    c = connection["comments"]
 
-    TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
-    q = TEMPLATE%({"blogid":BID})
-    result=c.execute(q)
+    #TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
+    #q = TEMPLATE%({"blogid":BID})
+    result=c.comments.find("BID": BID)
     
     commentinfo = []
     for data in result:
@@ -85,8 +85,8 @@ def getcount(source):
     connection = MongoClient()
     c = connection["blogs"]
 
-    TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
-    q = TEMPLATE%({"source" : source})
-    result = c.execute(q)
+    #TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
+    #q = TEMPLATE%({"source" : source})
+    result = c.blogs.find("source":source)
     for data in result:
         return data[0]
