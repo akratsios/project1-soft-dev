@@ -10,7 +10,7 @@ def addblog(t, un, post):
 
 
     from datetime import datetime
-    result = db.restaurants.insert_one(
+    db.blogs.insert_one(
         {
             "title": t,
             #"BID": ID,
@@ -29,24 +29,16 @@ def addcomment(BID, un, cmt):
     CID = getcount("comments") + 1
 
     from datetime import datetime
-    result = db.restaurants.insert_one(
+    db.comments.insert_one(
         {
-            "title": t,
-            #"BID": ID,
-            "username": un,
-            "post": post
+            "CID":CID, 
+            "BID":BID, 
+            "username":un, 
+            "comment":cmt
             #(still gotta figure out date stuff) "date": datetime.strptime("2014-01-16", "%Y-%m-%d"),
         }
     )
 
-
-    
-    TEMPLATE = "INSERT INTO comments VALUES(%(CID)s, %(BID)s, \"%(username)s\", \"%(comment)s\");" 
-    q = TEMPLATE%({"CID":CID, "BID":BID, "username":un, "comment":cmt})
-    c.execute(q)
-
-    connection.commit()
-    connection.close()
 
 def getblogs(start, end):
     #returns list of blogs with IDs from start to end
