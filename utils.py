@@ -47,7 +47,7 @@ def getblogs(start, end):
     
     #TEMPLATE = "SELECT * FROM blogs WHERE BID >= %(st)s AND BID <= %(end)s"
     #q = TEMPLATE%({"st":start, "end":end})
-    result = c.blogs.find( { "BID": { $gt: start}, "BID": { $lt :end}})
+    result = c.blogs.find( { "BID": { '$gte': start }, "BID" :{ '$lte': end }})
     bloglist = []
     for row in result:
         bloglist.append(row)
@@ -60,7 +60,7 @@ def getoneblog (BID):
 
     #TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
     #q = TEMPLATE%({"blogid":BID})
-    result=c.blogs.find("BID" : BID)
+    result=c.blogs.find("BID")
     
     bloginfo = []
     for data in result:
@@ -74,7 +74,7 @@ def getblogcomments (BID):
 
     #TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
     #q = TEMPLATE%({"blogid":BID})
-    result=c.comments.find("BID": BID)
+    result=c.comments.find("BID")
     
     commentinfo = []
     for data in result:
@@ -87,6 +87,6 @@ def getcount(source):
 
     #TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
     #q = TEMPLATE%({"source" : source})
-    result = c.blogs.find("source":source)
+    result = c.blogs.find("source")
     for data in result:
         return data[0]
