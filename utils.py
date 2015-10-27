@@ -87,6 +87,8 @@ def getcount(source):
 
     #TEMPLATE = "SELECT COUNT(*) FROM %(source)s"
     #q = TEMPLATE%({"source" : source})
-    result = c.blogs.find(source)
-    for data in result:
-        return data[0]
+    result = c.blogs.find(source).count()
+    return result
+
+
+
