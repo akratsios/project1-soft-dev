@@ -17,8 +17,6 @@ def create():
     )
 
     c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
-    conn.commit()
-    conn.close()
 
 def checkuser(username,password):
     create()
