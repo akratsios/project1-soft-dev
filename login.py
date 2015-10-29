@@ -1,11 +1,21 @@
-import sqlite3
+import random
+from pymongo import MongoClient
+
 import md5
 
 #checks if username + password matches one in database
 #if not, add username + password to database
 def create():
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()  
+    connection = MongoClient()
+    db=connection["database.db"]
+
+    db.users.insert_one(
+        {
+            "username": "",
+            "password": ""
+        }
+    )
+
     c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
     conn.commit()
     conn.close()
