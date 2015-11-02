@@ -31,12 +31,12 @@ def checkuser(username,password):
     #SELECT users.username,users.password 
     #FROM users
     #WHERE users.username = '%s'""" %username
-    a = """ #mongo stuff?
+    a = """
     db.users.find(
     { },
     { username: 1, password: 1, status: "%s"}
     )
-    """
+    """ #more mongodb stuff
     #result = c.execute(a)
     for r in result:
         print r
