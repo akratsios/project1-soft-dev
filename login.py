@@ -27,10 +27,16 @@ def checkuser(username,password):
     conn = connect("localhost:8000/database") #mongodb
     #c = conn.cursor()
     #^^db.inventory.find({type: 'a'});
-    a = """
-    SELECT users.username,users.password 
-    FROM users
-    WHERE users.username = '%s'""" %username
+    #a = """
+    #SELECT users.username,users.password 
+    #FROM users
+    #WHERE users.username = '%s'""" %username
+    a = """ #mongo stuff?
+    db.users.find(
+    { },
+    { username: 1, password: 1, status: "%s"}
+    )
+    """
     result = c.execute(a)
     for r in result:
         print r
