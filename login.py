@@ -23,7 +23,8 @@ def checkuser(username,password):
     m= md5.new()
     m.update(password)
     password = m.hexdigest()
-    conn = sqlite3.connect("database.db")
+    #conn = sqlite3.connect("database.db")
+    conn = connect("localhost:8000/database")
     c = conn.cursor()
     a = """
     SELECT users.username,users.password 
