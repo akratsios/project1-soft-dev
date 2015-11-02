@@ -37,7 +37,7 @@ def checkuser(username,password):
     { username: 1, password: 1, status: "%s"}
     )
     """
-    result = c.execute(a)
+    #result = c.execute(a)
     for r in result:
         print r
         if r[0] == username:
@@ -58,8 +58,10 @@ def adduser(uname,passwd):
     m= md5.new()
     m.update(passwd)
     passwd = m.hexdigest()
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
+    #conn = sqlite3.connect("database.db")
+    conn = connect("localhost:8000/database") #mongodb
+    #c = conn.cursor()
+    db.inventory.find({}) #mongodb
     TEMPLATE="INSERT INTO users VALUES('%(username)s','%(password)s')"
     q = TEMPLATE%{'username' : uname, 'password' : passwd}
     c.execute(q)
