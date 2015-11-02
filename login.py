@@ -24,8 +24,9 @@ def checkuser(username,password):
     m.update(password)
     password = m.hexdigest()
     #conn = sqlite3.connect("database.db")
-    conn = connect("localhost:8000/database")
-    c = conn.cursor()
+    conn = connect("localhost:8000/database") #mongodb
+    #c = conn.cursor()
+    #^^db.inventory.find({type: 'a'});
     a = """
     SELECT users.username,users.password 
     FROM users
