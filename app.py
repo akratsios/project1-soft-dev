@@ -58,7 +58,7 @@ def logout():
 
 @app.route("/create",methods=['GET', 'POST'])
 def create():
-    if "user" in session and session['user'] == user:
+    if "user" in session and session['user'] != 0:
         if request.method == "GET":
             if (session['user'] == 0):
                 return redirect(url_for("home"))
@@ -105,7 +105,7 @@ def blog():
 
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
-    if "user" in session and session['user'] == user:
+    if "user" in session and session['user'] != 0:
         user = session['user']
         if request.method == "GET":
             return redirect(url_for("home"))
