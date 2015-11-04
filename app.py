@@ -39,9 +39,14 @@ def log_in():
                 user = session['user']
                 return render_template("login.html", user = user, extra = result)
         else:
-            login.adduser(user,pwd)
-            session['user'] = user
-            return redirect(url_for("home"))
+            res = login.adduser(user,pwd)
+            if (res == "User Created"):
+                session['user'] = user
+                return redirect(url_for("home"))
+            else:
+                session['user'] = 0
+                user = session['user']
+                return render_template("login.html", user = user, extra = res)
 
 @app.route("/logout")
 def logout():
