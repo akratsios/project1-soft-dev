@@ -65,7 +65,7 @@ def getoneblog (BID):
 
     #TEMPLATE = "SELECT * FROM blogs WHERE BID = %(blogid)s"
     #q = TEMPLATE%({"blogid":BID})
-    result = c.find("BID")
+    result = c.find({"BID": BID})
     
     bloginfo = []
     for data in result:
@@ -80,7 +80,7 @@ def getblogcomments (BID):
 
     #TEMPLATE = "SELECT comments.username, comments.comment FROM comments WHERE BID = %(blogid)s"
     #q = TEMPLATE%({"blogid":BID})
-    result = c.find("BID")
+    result = c.find({"BID": BID})
     
     commentinfo = []
     for data in result:
