@@ -12,7 +12,7 @@ def checkuser(username,password):
     m= md5.new()
     m.update(password)
     password = m.hexdigest()
-    if (people.find({"username": username}).count() == 0):
+    if (people.find({"user": username}).count() == 0):
         return "No Such User"
     else:
         if (people.find({"user": username, "pass": password}).count() == 0):
