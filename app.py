@@ -58,16 +58,17 @@ def logout():
 
 @app.route("/create",methods=['GET', 'POST'])
 def create():
-    if request.method == "GET":
-        if (session['user'] == 0):
-            return redirect(url_for("home"))
-        return render_template("create.html")
-    if request.method == "POST":
-        user = session['user']
-        title = request.form['bname']
-        post = request.form['btext']
-        utils.addblog(title, user, post)
-        return redirect(url_for("blog"))
+    if "user" in session and session['user'] == user:
+        if request.method == "GET":
+            if (session['user'] == 0):
+                return redirect(url_for("home"))
+            return render_template("create.html")
+        if request.method == "POST":
+            user = session['user']
+            title = request.form['bname']
+            post = request.form['btext']
+            utils.addblog(title, user, post)
+            return redirect(url_for("blog"))
 
 @app.route("/blog",methods=['GET', 'POST'])
 def blog():
@@ -104,17 +105,18 @@ def blog():
 
 @app.route("/comment",methods=['GET', 'POST'])
 def comment():
-    user = session['user']
-    if request.method == "GET":
-        return redirect(url_for("home"))
-    elif request.method == "POST":
-        BID = int(request.form["BID"])
-        if ("text" in request.form):
-            comment = request.form["text"]
-            utils.addcomment(BID,user,comment)
-        blog = utils.getoneblog(BID)
-        comments = utils.getblogcomments(BID)
-        return render_template("comment.html", user = user, blog = blog, comments = comments, BID = BID)
+    if "user" in session and session['user'] == user:
+        user = session['user']
+        if request.method == "GET":
+            return redirect(url_for("home"))
+        elif request.method == "POST":
+            BID = int(request.form["BID"])
+            if ("text" in request.form):
+                comment = request.form["text"]
+                utils.addcomment(BID,user,comment)
+            blog = utils.getoneblog(BID)
+            comments = utils.getblogcomments(BID)
+            return render_template("comment.html", user = user, blog = blog, comments = comments, BID = BID)
 
 if __name__ == "__main__":
     app.debug = True
