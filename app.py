@@ -70,7 +70,7 @@ def create():
             utils.addblog(title, user, post)
             return redirect(url_for("blog"))
     else:
-        return ""
+        return redirect(url_for("home"))
 
 @app.route("/blog",methods=['GET', 'POST'])
 def blog():
@@ -120,7 +120,7 @@ def comment():
             comments = utils.getblogcomments(BID)
             return render_template("comment.html", user = user, blog = blog, comments = comments, BID = BID)
     else:
-        return ""
+        return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.debug = True
